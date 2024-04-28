@@ -418,47 +418,36 @@ class LaserCircuit:
         You will need to find your own way to check for symbol collisions
         with other emitters.
         '''
-        if type(emitter) != Emitter:
+        # Check if emitter is instance of Emitter
+        if not isinstance(emitter, Emitter):
             return False
-        else:
-            # Check 1
-            check_1: bool = False
-            check_2: bool = False
-            check_3: bool = False
-            if (emitter.get_x() >= 0 and emitter.get_x() < self.get_width()) and (emitter.get_y() >= 0 and emitter.get_y() < self.get_height()):
-                check_1 = True
-                # Check 2 emitter
-                if self.get_collided_emitter(emitter) == None:
-                    check_2 = True
-                    # Check 3
-                    i = 0
-                    j = 0
-                    while i < len(self.emitters):
-                        if emitter.get_symbol() == self.emitters[i].get_symbol():
-                            j += 1
-                        i += 1
-                    if j == 0:
-                        check_3 = True
-                    else:
-                        print("Error: symbol '{}' is already taken.".format(
-                            emitter.get_symbol()))
-                else:
-                    print("Error: position ({}, {}) is already taken by emitter '{}'".format(
-                        emitter.get_x(), emitter.get_y(), self.get_collided_emitter(emitter).get_symbol()))
-            else:
-                print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
-                    emitter.get_x(), emitter.get_y(), self.get_width(), self.get_height()))
-
-            # If all test passsed
-            if check_1 and check_2 and check_3:
-                # Add emitter alphabetically
-                self.emitters.append(emitter)
-                # NEED TO SORT
-                self.emitters = sorter.sort_emitters_by_symbol(self.emitters)
-                # Add to board BoardDisplayer
-                self.board_displayer.add_component_to_board(emitter)
-                # Return True
-                return True
+        # Check 1: emitter is within the bounds of the circuit
+        if not (0 <= emitter.get_x() < self.get_width()) and (0 <= emitter.get_y() < self.get_height()):
+            print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
+                emitter.get_x(), emitter.get_y(), self.get_width(), self.get_height()))
+            return False
+        # Check 2: emitter position is not already taken by other emitter
+        if self.get_collided_emitter(emitter):
+            print("Error: position ({}, {}) is already taken by emitter '{}'".format(
+                emitter.get_x(), emitter.get_y(), self.get_collided_emitter(emitter).get_symbol()))
+            return False
+        # Check 3: emitter symbol is not already taken by another emitter
+        i = 0
+        while i < len(self.emitters):
+            if emitter.get_symbol() == self.emitters[i].get_symbol():
+                print("Error: symbol '{}' is already taken".format(
+                    emitter.get_symbol()))
+                return False
+            i += 1
+        # If all test pass
+        # Add emitter alphabetically
+        self.emitters.append(emitter)
+        # Sort
+        self.emitters = sorter.sort_emitters_by_symbol(self.emitters)
+        # Add to board BoardDisplayer
+        self.board_displayer.add_component_to_board(emitter)
+        # Return True
+        return True
 
     def get_emitters(self) -> list[Emitter]:
         '''Returns emitters.'''
@@ -503,55 +492,40 @@ class LaserCircuit:
         You will need to find your own way to check for symbol collisions
         with other receivers.
         '''
-        if type(receiver) != Receiver:
+        # Check if receiver is instance of Receiver
+        if not isinstance(receiver, Receiver):
             return False
-        else:
-            # Check 1
-            check_1: bool = False
-            check_2: bool = False
-            check_3: bool = False
-            if (receiver.get_x() >= 0 and receiver.get_x() < self.get_width()) and (receiver.get_y() >= 0 and receiver.get_y() < self.get_height()):
-                check_1 = True
-                # Check 2 receiver and emitter
-                if self.get_collided_receiver(receiver) == None:
-                    check_2_1 = True
-                else:
-                    check_2_1 = False
-                    print("Error: position ({}, {}) is already taken by receiver 'R{}'".format(
-                        receiver.get_x(), receiver.get_y(), self.get_collided_receiver(receiver).get_symbol()))
-                if self.get_collided_emitter(receiver) == None:
-                    check_2_2 = True
-                    check_2 = check_2_1 and check_2_2
-                    if check_2:
-                        # Check 3
-                        i = 0
-                        j = 0
-                        while i < len(self.receivers):
-                            if receiver.get_symbol() == self.receivers[i].get_symbol():
-                                j += 1
-                            i += 1
-                        if j == 0:
-                            check_3 = True
-                        else:
-                            print("Error: symbol 'R{}' is already taken".format(
-                                receiver.get_symbol()))
-                else:
-                    print("Error: position ({}, {}) is already taken by emitter '{}'".format(
-                        receiver.get_x(), receiver.get_y(), self.get_collided_emitter(receiver).get_symbol()))
-            else:
-                print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
-                    receiver.get_x(), receiver.get_y(), self.get_width(), self.get_height()))
-
-            # If all test passsed
-            if check_1 and check_2 and check_3:
-                # Add receiver alphabetically
-                self.receivers.append(receiver)
-                # NEED TO SORT
-                self.receivers = sorter.sort_receivers_by_symbol(
-                    self.receivers)
-                self.board_displayer.add_component_to_board(receiver)
-                # Return True
-                return True
+        # Check 1: receiver is within the bounds of the circuit
+        if not (0 <= receiver.get_x() < self.get_width()) and (0 <= receiver.get_y() < self.get_height()):
+            print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
+                receiver.get_x(), receiver.get_y(), self.get_width(), self.get_height()))
+            return False
+        # Check 2: receiver position is not already taken by other emitter
+        if self.get_collided_emitter(receiver):
+            print("Error: position ({}, {}) is already taken by emitter '{}'".format(
+                receiver.get_x(), receiver.get_y(), self.get_collided_emitter(receiver).get_symbol()))
+            return False
+        # Check 3: receiver position is not already taken by other receiver
+        if self.get_collided_receiver(receiver):
+            print("Error: position ({}, {}) is already taken by receiver '{}'".format(
+                receiver.get_x(), receiver.get_y(), self.get_collided_receiver(receiver).get_symbol()))
+            return False
+        # Check 4: receiver symbol is not already taken by another receiver
+        i = 0
+        while i < len(self.receivers):
+            if receiver.get_symbol() == self.receivers[i].get_symbol():
+                print("Error: symbol '{}' is already taken".format(
+                    receiver.get_symbol()))
+                return False
+            i += 1
+        # If all test pass
+        # Add receiver alphabetically
+        self.receivers.append(receiver)
+        # Sort
+        self.receivers = sorter.sort_receivers_by_symbol(self.receivers)
+        self.board_displayer.add_component_to_board(receiver)
+        # Return True
+        return True
 
     def get_receivers(self) -> list[Receiver]:
         '''Returns receivers.'''

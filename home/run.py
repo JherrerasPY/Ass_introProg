@@ -191,7 +191,7 @@ def set_pulse_sequence(circuit: LaserCircuit, file_obj) -> None:
                 i += 1
                 continue
         i += 1  # this is when the input is correct
-    print("\nPulse sequence set.\n")
+    print("Pulse sequence set.\n")
 
 
 def add_mirrors(circuit: LaserCircuit) -> None:
