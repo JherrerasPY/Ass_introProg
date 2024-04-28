@@ -128,8 +128,7 @@ class BoardDisplayer:
          [' ', ' ', ' ']
         ]      
         '''
-        self.board[component.get_y()][component.get_x()
-                                      ] = component.get_symbol()
+        self.board[component.get_y()][component.get_x()] = component.get_symbol()
 
     def add_photon_to_board(self, photon: Photon, show_color: bool = False) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
@@ -166,16 +165,13 @@ class BoardDisplayer:
                     color_code = "\033[39m"  # NO Change
                 # add color
                 if self.board[photon.get_y()][photon.get_x()] == ' ':
-                    self.board[photon.get_y()][photon.get_x(
-                    )] = color_code + photon.get_symbol() + end_code
+                    self.board[photon.get_y()][photon.get_x()] = color_code + photon.get_symbol() + end_code
             except:
                 if self.board[photon.get_y()][photon.get_x()] == ' ':
-                    self.board[photon.get_y()][photon.get_x()
-                                               ] = photon.get_symbol()
+                    self.board[photon.get_y()][photon.get_x()] = photon.get_symbol()
         else:  # NO color
             if self.board[photon.get_y()][photon.get_x()] == ' ':
-                self.board[photon.get_y()][photon.get_x()
-                                           ] = photon.get_symbol()
+                self.board[photon.get_y()][photon.get_x()] = photon.get_symbol()
 
     def print_board(self) -> None:
         '''

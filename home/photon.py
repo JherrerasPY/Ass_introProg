@@ -73,7 +73,7 @@ class Photon:
                 self.y += 1
             if self.get_direction() == 'W':
                 self.x -= 1
-        if not ((self.get_x() >= 0 and self.get_x() < board_width) and (self.get_y() >= 0 and self.get_y() < board_height)):
+        if not ((0 <= self.get_x() < board_width) and (0 <= self.get_y() < board_height)):
             self.got_absorbed()
             if self.get_direction() == 'N':
                 self.y += 1
@@ -116,13 +116,12 @@ class Photon:
         '''
         if self.is_absorbed():
             return
-        if component == None:
+        if component is None:
             return
         if component.get_component_type() == 'emitter':
             return
         if component.get_component_type() == 'receiver':
             component.absorb_photon(self, timestamp)
-            component.is_activated()
             return
         if component.get_component_type() == 'mirror':
             component.reflect_photon(self)

@@ -67,8 +67,7 @@ class LaserCircuit:
         i = 0
         while i < len(self.get_emitters()):
             if self.colour_mode:
-                self.board_displayer.change_emitter_format(
-                    self.get_emitters()[i], True)
+                self.board_displayer.change_emitter_format(self.get_emitters()[i], True)
             new_photon = self.get_emitters()[i].emit_photon()
             self.photons.append(new_photon)
             i += 1
@@ -108,11 +107,10 @@ class LaserCircuit:
         i = 0
         with open('home/output/emit_photons.out', 'w') as file:
             print(out_head_emitting)
-            # file.writelines(out_head_emitting+ '\n')
             while i < len(self.get_emitters()):
                 out_emitter = self.get_emitters()[i]
                 print(out_emitter)
-                file.writelines(str(out_emitter)+'\n')
+                file.write(str(out_emitter)+'\n')
                 i += 1
 
     def print_activation_times(self) -> None:
@@ -128,21 +126,19 @@ class LaserCircuit:
         You can assume the /home/output/ path exists.
         '''
         activation_head = "Activation times:"
-        i = 0
         # Sort by activation times
         self.receivers = sorter.sort_receivers_by_activation_time(
             self.receivers)
         with open('home/output/activation_times.out', 'w') as file:
             print(activation_head)
-            # file.writelines(activation_head + '\n')
+            i = 0
             while i < len(self.get_receivers()):
                 out_receiver = self.get_receivers()[i]
-                receiver_time = f"R{out_receiver.get_symbol()}: {
-                    out_receiver.get_activation_time()}ns"
+                receiver_time = f"R{out_receiver.get_symbol()}: {out_receiver.get_activation_time()}ns"
                 # Print when is activated
-                if out_receiver.activated == True:
+                if out_receiver.is_activated():
                     print(receiver_time)
-                    file.writelines(str(receiver_time)+'\n')
+                    file.write(str(receiver_time)+'\n')
                 i += 1
 
     def print_total_energy(self) -> None:
@@ -158,16 +154,15 @@ class LaserCircuit:
         You can assume the /home/output/ path exists.
         '''
         out_head_received = f"Total energy absorbed:"
-        i = 0
         self.receivers = sorter.sort_receivers_by_total_energy(self.receivers)
         with open('home/output/total_energy.out', 'w') as file:
             print(out_head_received)
-            # file.writelines(out_head_received + '\n')
+            i = 0
             while i < len(self.get_receivers()):
                 out_receiver = self.get_receivers()[i]
-                if out_receiver.activated == True:
+                if out_receiver.is_activated():
                     print(out_receiver)
-                    file.writelines(str(out_receiver)+'\n')
+                    file.write(str(out_receiver)+'\n')
                 i += 1
 
     def print_board(self) -> None:
@@ -275,11 +270,11 @@ class LaserCircuit:
         ----
         Use the three collision methods above to handle this.
         '''
-        if type(self.get_collided_receiver(photon)) == Receiver:
+        if isinstance(self.get_collided_receiver(photon), Receiver):
             return self.get_collided_receiver(photon)
-        if type(self.get_collided_emitter(photon)) == Emitter:
+        if isinstance(self.get_collided_emitter(photon), Emitter):
             return self.get_collided_emitter(photon)
-        if type(self.get_collided_mirror(photon)) == Mirror:
+        if isinstance(self.get_collided_mirror(photon), Mirror):
             return self.get_collided_mirror(photon)
         return None
 

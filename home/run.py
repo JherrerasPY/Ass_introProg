@@ -179,8 +179,7 @@ def set_pulse_sequence(circuit: LaserCircuit, file_obj) -> None:
             while j < len(circuit.emitters):
                 if tuple_sequence[0] == circuit.emitters[j].get_symbol():
                     if circuit.emitters[j].is_pulse_sequence_set():
-                        print(f"Error: emitter '{
-                              tuple_sequence[0]}' already its pulse sequence set")
+                        print(f"Error: emitter '{tuple_sequence[0]}' already its pulse sequence set")
                         setted_already = True
                         break
                     else:  # SET pulse

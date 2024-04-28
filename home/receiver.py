@@ -92,8 +92,7 @@ class Receiver:
                     receiver
         '''
         if not photon.is_absorbed():
-            self.total_energy += self.convert_frequency_to_energy(
-                photon.get_frequency())
+            self.total_energy += self.convert_frequency_to_energy(photon.get_frequency())
             if self.photons_absorbed == 0:
                 self.activated = True
                 self.activation_time = timestamp
