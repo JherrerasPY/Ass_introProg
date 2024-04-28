@@ -108,7 +108,7 @@ class LaserCircuit:
         '''
         out_head_emitting = f"{self.clock}ns: Emitting photons."
         i = 0
-        with open('/home/output/emit_photons.out', 'w') as file:
+        with open('home/output/emit_photons.out', 'w') as file:
             print(out_head_emitting)
             #file.writelines(out_head_emitting+ '\n')
             while i< len(self.get_emitters()):
@@ -134,7 +134,7 @@ class LaserCircuit:
         i = 0
         # Sort by activation times
         self.receivers = sorter.sort_receivers_by_activation_time(self.receivers)
-        with open('/home/output/activation_times.out', 'w') as file:
+        with open('home/output/activation_times.out', 'w') as file:
             print(activation_head)
             #file.writelines(activation_head + '\n')
             while i < len(self.get_receivers()):
@@ -162,7 +162,7 @@ class LaserCircuit:
         out_head_received = f"Total energy absorbed:"
         i = 0
         self.receivers = sorter.sort_receivers_by_total_energy(self.receivers)
-        with open('/home/output/total_energy.out', 'w') as file:
+        with open('home/output/total_energy.out', 'w') as file:
             print(out_head_received)
             #file.writelines(out_head_received + '\n')
             while i< len(self.get_receivers()):

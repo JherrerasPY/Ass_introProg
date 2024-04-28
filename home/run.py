@@ -224,7 +224,7 @@ def is_rgb_my_circuit_enabled(args: list[str]) ->bool:
     
 
 def load_colour_frequency_ranges() -> dict[str,tuple[int, int]] | None:
-    file_name = 'input/visible_light_spectrum.in'
+    file_name = 'home/input/visible_light_spectrum.in'
     try:
         with open(file_name, 'r') as file:
             colour_order = ['violet', 'blue', 'cyan', 'green', 'yellow', 'orange','red']
