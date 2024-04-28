@@ -16,7 +16,6 @@ modifying the existing scaffold.
 
 class Emitter:
 
-
     def __init__(self, symbol: str, x: int, y: int):
         '''
         Initialises an Emitter instance given a symbol, x and y value. 
@@ -40,35 +39,34 @@ class Emitter:
         x      - the x position to set this emitter to
         y      - the y position to set this emitter to
         '''
-        self.component_type:str = 'emitter'
-        self.symbol:str = symbol
-        self.x:int = x
-        self.y:int = y
-        self.frequency:int = 0
-        self.direction:str = None
-        self.pulse_sequence_set:bool = False
-
+        self.component_type: str = 'emitter'
+        self.symbol: str = symbol
+        self.x: int = x
+        self.y: int = y
+        self.frequency: int = 0
+        self.direction: str = None
+        self.pulse_sequence_set: bool = False
 
     def emit_photon(self) -> Photon:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
         Represents the action of emitting a photon. 
-        
+
         Returns
         ----------
         A photon that inherits this emitter's position, frequency and 
         direction.
         '''
-        new_photon = Photon(self.get_x(), self.get_y(), self.get_frequency(), self.get_direction())
+        new_photon = Photon(self.get_x(), self.get_y(),
+                            self.get_frequency(), self.get_direction())
         return new_photon
-
 
     def set_pulse_sequence(self, frequency: int, direction: str) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
         Sets the pulse sequence for this emitter, setting the frequency and
         direction attribute.
-        
+
         The frequency passed in must be greater than zero, and the direction
         passed in must be either 'N', 'E', 'S' or 'W'. If both of these
         conditions are met, update frequency and direction, and update
@@ -79,50 +77,42 @@ class Emitter:
         frequency - the new frequency to set for this emitter 
         direction - the new direction to set for this emitter      
         '''
-        if frequency >0:
+        if frequency > 0:
             if direction == 'N' or direction == 'E' or direction == 'S' or direction == 'W':
                 self.direction = direction
                 self.frequency = frequency
                 self.pulse_sequence_set = True
-
 
     def is_pulse_sequence_set(self) -> bool:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns whether or not the pulse sequence for this emitter has been set.'''
         return self.pulse_sequence_set
 
-
     def get_frequency(self) -> int:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns frequency.'''
         return self.frequency
-
 
     def get_direction(self) -> str:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns direction.'''
         return self.direction
 
-
     def get_component_type(self) -> str:
         '''Returns component type.'''
         return self.component_type
-
 
     def get_symbol(self) -> str:
         '''Returns symbol.'''
         return self.symbol
 
-    
     def get_x(self) -> int:
         '''Returns x.'''
         return self.x
 
-
     def get_y(self) -> int:
         '''Returns y.'''
         return self.y
-
 
     def __str__(self) -> str:
         # only requires implementation once you reach RUN-MY-CIRCUIT
@@ -158,4 +148,3 @@ class Emitter:
             new_direction = 'West'
 
         return f"{self.get_symbol()}: {self.get_frequency()}THz, {new_direction}"
-
