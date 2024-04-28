@@ -316,7 +316,7 @@ def main(args: list[str]) -> None:
         
         try:
             with open('home/input/pulse_sequence.in', 'r') as file_obj:
-                set_pulse_sequence(circuit, file_obj)
+                set_pulse_sequence(circuit, file_obj) # hello
         except:
             print("Error: -RUN-MY-CIRCUIT flag detected but /home/input/pulse_sequence.in does not exist")
             return
