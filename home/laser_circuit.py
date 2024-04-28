@@ -422,7 +422,7 @@ class LaserCircuit:
         if not isinstance(emitter, Emitter):
             return False
         # Check 1: emitter is within the bounds of the circuit
-        if not (0 <= emitter.get_x() < self.get_width()) and (0 <= emitter.get_y() < self.get_height()):
+        if not (0 <= emitter.get_x() < self.get_width()) and not (0 <= emitter.get_y() < self.get_height()):
             print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
                 emitter.get_x(), emitter.get_y(), self.get_width(), self.get_height()))
             return False
@@ -496,7 +496,7 @@ class LaserCircuit:
         if not isinstance(receiver, Receiver):
             return False
         # Check 1: receiver is within the bounds of the circuit
-        if not (0 <= receiver.get_x() < self.get_width()) and (0 <= receiver.get_y() < self.get_height()):
+        if not (0 <= receiver.get_x() < self.get_width()) and not(0 <= receiver.get_y() < self.get_height()):
             print("Error: position ({}, {}) is out-of-bounds of {}x{} circuit board".format(
                 receiver.get_x(), receiver.get_y(), self.get_width(), self.get_height()))
             return False

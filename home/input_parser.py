@@ -57,46 +57,32 @@ def parse_size(user_input: str) -> tuple[int, int] | None:
     >>> size
     (18, 6)
     '''
-    check1 = False
-    check2 = False
-    check3 = False
-    check4 = False
-    check5 = False
-    # Check1: exactly 2 tokens
+    # Check 1: Exactly 2 tokens
     size_list = user_input.split()
-    if len(size_list) == 2:
-        check1 = True
-        # Check2: width is integer
-        try:
-            width_input = int(size_list[0])
-            if isinstance(width_input, int):
-                check2 = True
-                # Check3: height is integer
-                try:
-                    height_input = int(size_list[1])
-                    if isinstance(height_input, int):
-                        check3 = True
-                        # Check4: width greater than Zero
-                        if width_input > 0:
-                            check4 = True
-                            # Check5: height greater than Zero
-                            if height_input > 0:
-                                check5 = True
-                            else:
-                                print("Error: height must be greater than zero")
-                        else:
-                            print("Error: width must be greater than zero")
-                except:
-                    print("Error: height is not an integer")
-        except:
-            print("Error: width is not an integer")
-    else:
+    if len(size_list) != 2:
         print("Error: <width> <height>")
-
-    # if all test passed
-    if check1 and check2 and check3 and check4 and check5:
-        return (width_input, height_input)
-    return None
+        return None
+    # Check 2: width is an integer
+    try:
+        width_input = int(size_list[0])
+    except ValueError:
+        print("Error: width is not an integer")
+        return None
+    # Check 3: height is an integer
+    try:
+        height_input = int(size_list[1])
+    except ValueError:
+        print("Error: height is not an integer")
+        return None
+    # Check 4: width is greater than zero
+    if width_input <= 0:
+        print("Error: width must be greater than zero")
+        return None
+    # Check 5: height is greater than zero
+    if height_input <= 0:
+        print("Error: height must be greater than zero")
+        return None
+    return width_input, height_input
 
 
 def parse_emitter(user_input: str) -> Emitter | None:
@@ -124,60 +110,46 @@ def parse_emitter(user_input: str) -> Emitter | None:
     Else, if at any point a check fails, prints an error message stating the cause
     of the error and returns None, skipping any further checks.
     '''
-    check1 = False
-    check2 = False
-    check3 = False
-    check4 = False
-    check5 = False
-    check6 = False
-
-    # Check1: contains 3 tokens
+    # Check 1: 3 tokens
     emitter_list = user_input.split()
-    if len(emitter_list) == 3:
-        check1 = True
-        # Check2: symbol is character between "A" and "J"
-        i = 0
-        in_list = False
-        while i < len(emitter_constraint):
-            if emitter_list[0] == emitter_constraint[i]:
-                in_list = True
-                break
-            i += 1
-        if in_list:
-            check2 = True
-            # Check3: x is an integer
-            try:
-                x_input = int(emitter_list[1])
-                if isinstance(x_input, int):
-                    check3 = True
-                    # Check4: y is and integer
-                    try:
-                        y_input = int(emitter_list[2])
-                        if isinstance(y_input, int):
-                            check4 = True
-                            # Check5: x is not negative
-                            if x_input >= 0:
-                                check5 = True
-                                # Check6: y is not negative
-                                if y_input >= 0:
-                                    check6 = True
-                                else:
-                                    print("Error: y cannot be negative")
-                            else:
-                                print("Error: x cannot be negative")
-                    except:
-                        print("Error: y is not an integer")
-            except:
-                print("Error: x is not an integer")
-        else:
-            print("Error: symbol is not between 'A'-'J'")
-    else:
+    if len(emitter_list) != 3:
         print("Error: <symbol> <x> <y>")
-
-    if check1 and check2 and check3 and check4 and check5 and check6:
-        new_emitter = Emitter(emitter_list[0], x_input, y_input)
-        return new_emitter
-    return None
+        return None
+    emitter_symbol = emitter_list[0]
+    emitter_x = emitter_list[1]
+    emitter_y = emitter_list[2]
+    # Check 2: symbol is character between "A" and "J"
+    i = 0
+    in_list = False
+    while i < len(emitter_constraint):
+        if emitter_symbol == emitter_constraint[i]:
+            in_list = True
+        i += 1
+    if not in_list:
+        print("Error: symbol is not between 'A' - 'J'")
+        return None
+    # Check 3: X is an integer
+    try:
+        emitter_x = int(emitter_x)
+    except ValueError:
+        print("Error: x is not an integer")
+        return None
+    # Check 4: Y is an integer
+    try:
+        emitter_y = int(emitter_y)
+    except ValueError:
+        print("Error: x is not an integer")
+        return None
+    # Check 5: X is not negative
+    if emitter_x < 0:
+        print("Error: x cannot be negative")
+        return None
+    # Check 6: Y is not negative
+    if emitter_y < 0:
+        print("Error: y cannot be negative")
+        return None
+    new_emitter = Emitter(emitter_symbol, emitter_x, emitter_y)
+    return new_emitter
 
 
 def parse_receiver(user_input: str) -> Receiver | None:
@@ -198,60 +170,46 @@ def parse_receiver(user_input: str) -> Receiver | None:
     Else, if at any point a check fails, prints an error message stating the cause
     of the error and returns None, skipping any further checks.    
     '''
-    check1 = False
-    check2 = False
-    check3 = False
-    check4 = False
-    check5 = False
-    check6 = False
-
-    # Check1: contains 3 tokens
+    # Check 1: 3 tokens
     receiver_list = user_input.split()
-    if len(receiver_list) == 3:
-        check1 = True
-        # Check2: symbol is character between "R0" and "R9"
-        i = 0
-        in_list = False
-        while i < len(receiver_constraint):
-            if receiver_list[0] == receiver_constraint[i]:
-                in_list = True
-                break
-            i += 1
-        if in_list:
-            check2 = True
-            # Check3: x is an integer
-            try:
-                x_input = int(receiver_list[1])
-                if isinstance(x_input, int):
-                    check3 = True
-                    # Check4: y is and integer
-                    try:
-                        y_input = int(receiver_list[2])
-                        if isinstance(y_input, int):
-                            check4 = True
-                            # Check5: x is not negative
-                            if x_input >= 0:
-                                check5 = True
-                                # Check6: y is not negative
-                                if y_input >= 0:
-                                    check6 = True
-                                else:
-                                    print("Error: y cannot be negative")
-                            else:
-                                print("Error: x cannot be negative")
-                    except:
-                        print("Error: y is not an integer")
-            except:
-                print("Error: x is not an integer")
-        else:
-            print("Error: symbol is not between R0-R9")
-    else:
+    if len(receiver_list) != 3:
         print("Error: <symbol> <x> <y>")
-
-    if check1 and check2 and check3 and check4 and check5 and check6:
-        new_receiver = Receiver(receiver_list[0], x_input, y_input)
-        return new_receiver
-    return None
+        return None
+    receiver_symbol = receiver_list[0]
+    receiver_x = receiver_list[1]
+    receiver_y = receiver_list[2]
+    # Check 2: symbol is character between "R0" and "R1"
+    i = 0
+    in_list = False
+    while i < len(receiver_constraint):
+        if receiver_symbol == receiver_constraint[i]:
+            in_list = True
+        i += 1
+    if not in_list:
+        print("Error: symbol is not between 'R0' - 'R9'")
+        return None
+    # Check 3: X is an integer
+    try:
+        receiver_x = int(receiver_x)
+    except ValueError:
+        print("Error: x is not an integer")
+        return None
+    # Check 4: Y is an integer
+    try:
+        receiver_y = int(receiver_y)
+    except ValueError:
+        print("Error: x is not an integer")
+        return None
+    # Check 5: X is not negative
+    if receiver_x < 0:
+        print("Error: x cannot be negative")
+        return None
+    # Check 6: Y is not negative
+    if receiver_y < 0:
+        print("Error: y cannot be negative")
+        return None
+    new_receiver = Receiver(receiver_symbol, receiver_x, receiver_y)
+    return new_receiver
 
 
 def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:

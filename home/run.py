@@ -75,7 +75,7 @@ def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
     while True:
         board_user = input("> ")
         board_call = input_parser.parse_size(board_user)
-        if type(board_call) == tuple:
+        if isinstance(board_call, tuple):
             break
     new_circuit = LaserCircuit(
         board_call[0], board_call[1], colour_frequency_ranges)
@@ -87,7 +87,7 @@ def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
     max_times = 10
     while True:
         # Check MAX 10
-        if len(new_circuit.emitters) == max_times:
+        if len(new_circuit.get_emitters()) == max_times:
             break
         emitter_user = input("> ")
         # Check END EMITTERS
@@ -95,10 +95,10 @@ def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
             break
         emitter_call = input_parser.parse_emitter(emitter_user)
         # ADD EMITTERS
-        if type(emitter_call) == Emitter:
+        if isinstance(emitter_call, Emitter):
             new_circuit.add_emitter(emitter_call)
 
-    print(f"{len(new_circuit.emitters)} emitter(s) added.\n")
+    print(f"{len(new_circuit.get_emitters())} emitter(s) added.\n")
 
     # 3 Get receivers MAX 10 or END RECEIVERS
     print("Adding receiver(s)...")
@@ -106,7 +106,7 @@ def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
     max_times = 10
     while True:
         # Check MAX 10
-        if len(new_circuit.receivers) == max_times:
+        if len(new_circuit.get_receivers()) == max_times:
             break
         receiver_user = input("> ")
         # Check END RECEIVERS
@@ -114,10 +114,10 @@ def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
             break
         receiver_call = input_parser.parse_receiver(receiver_user)
         # ADD RECEIVERS
-        if type(receiver_call) == Receiver:
+        if isinstance(receiver_call, Receiver):
             new_circuit.add_receiver(receiver_call)
 
-    print(f"{len(new_circuit.receivers)} receiver(s) added.\n")
+    print(f"{len(new_circuit.get_receivers())} receiver(s) added.\n")
     return new_circuit
 
 
