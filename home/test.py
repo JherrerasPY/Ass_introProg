@@ -41,7 +41,7 @@ def test_emitter_colour_change():
     assert circuit.board_displayer.board[emitter.get_x()][emitter.get_y()] \
         == f'\x1b[4m{emitter.get_symbol()}\x1b[0m'
 
-    # STEP 3: Call tick() 
+    # STEP 3: Call tick()
     # You are free to perform additional actions / multiple ticks if needed
     circuit.tick()
 
@@ -55,4 +55,3 @@ if __name__ == '__main__':
     # NOTE: Number of parameters/arguments and their types are changeable.
     test_emitter_colour_change()
     # you'll be calling more tests below...
-

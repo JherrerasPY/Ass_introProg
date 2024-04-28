@@ -18,7 +18,8 @@ existing scaffold.
 '''
 emitter_constraint = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 direction_constraint = ['N', 'E', 'S', 'W']
-receiver_constraint = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9']
+receiver_constraint = ['R0', 'R1', 'R2',
+                       'R3', 'R4', 'R5', 'R6', 'R7', 'R8', 'R9']
 
 
 def parse_size(user_input: str) -> tuple[int, int] | None:
@@ -68,22 +69,22 @@ def parse_size(user_input: str) -> tuple[int, int] | None:
         # Check2: width is integer
         try:
             width_input = int(size_list[0])
-            if isinstance(width_input,int):
-                check2 = True        
+            if isinstance(width_input, int):
+                check2 = True
                 # Check3: height is integer
                 try:
                     height_input = int(size_list[1])
-                    if isinstance(height_input,int):
+                    if isinstance(height_input, int):
                         check3 = True
-                        # Check4: width greater than Zero 
+                        # Check4: width greater than Zero
                         if width_input > 0:
                             check4 = True
-                            # Check5: height greater than Zero 
+                            # Check5: height greater than Zero
                             if height_input > 0:
                                 check5 = True
                             else:
                                 print("Error: height must be greater than zero")
-                        else: 
+                        else:
                             print("Error: width must be greater than zero")
                 except:
                     print("Error: height is not an integer")
@@ -92,12 +93,10 @@ def parse_size(user_input: str) -> tuple[int, int] | None:
     else:
         print("Error: <width> <height>")
 
-
     # if all test passed
     if check1 and check2 and check3 and check4 and check5:
         return (width_input, height_input)
     return None
-
 
 
 def parse_emitter(user_input: str) -> Emitter | None:
@@ -140,21 +139,21 @@ def parse_emitter(user_input: str) -> Emitter | None:
         i = 0
         in_list = False
         while i < len(emitter_constraint):
-            if emitter_list[0]== emitter_constraint[i]:
+            if emitter_list[0] == emitter_constraint[i]:
                 in_list = True
                 break
-            i+=1
+            i += 1
         if in_list:
             check2 = True
             # Check3: x is an integer
             try:
                 x_input = int(emitter_list[1])
-                if isinstance(x_input,int):
+                if isinstance(x_input, int):
                     check3 = True
                     # Check4: y is and integer
                     try:
                         y_input = int(emitter_list[2])
-                        if isinstance(y_input,int):
+                        if isinstance(y_input, int):
                             check4 = True
                             # Check5: x is not negative
                             if x_input >= 0:
@@ -169,7 +168,7 @@ def parse_emitter(user_input: str) -> Emitter | None:
                     except:
                         print("Error: y is not an integer")
             except:
-                print("Error: x is not an integer") 
+                print("Error: x is not an integer")
         else:
             print("Error: symbol is not between 'A'-'J'")
     else:
@@ -179,7 +178,6 @@ def parse_emitter(user_input: str) -> Emitter | None:
         new_emitter = Emitter(emitter_list[0], x_input, y_input)
         return new_emitter
     return None
-
 
 
 def parse_receiver(user_input: str) -> Receiver | None:
@@ -215,21 +213,21 @@ def parse_receiver(user_input: str) -> Receiver | None:
         i = 0
         in_list = False
         while i < len(receiver_constraint):
-            if receiver_list[0]== receiver_constraint[i]:
+            if receiver_list[0] == receiver_constraint[i]:
                 in_list = True
                 break
-            i+=1
+            i += 1
         if in_list:
             check2 = True
             # Check3: x is an integer
             try:
                 x_input = int(receiver_list[1])
-                if isinstance(x_input,int):
+                if isinstance(x_input, int):
                     check3 = True
                     # Check4: y is and integer
                     try:
                         y_input = int(receiver_list[2])
-                        if isinstance(y_input,int):
+                        if isinstance(y_input, int):
                             check4 = True
                             # Check5: x is not negative
                             if x_input >= 0:
@@ -244,7 +242,7 @@ def parse_receiver(user_input: str) -> Receiver | None:
                     except:
                         print("Error: y is not an integer")
             except:
-                print("Error: x is not an integer") 
+                print("Error: x is not an integer")
         else:
             print("Error: symbol is not between R0-R9")
     else:
@@ -254,7 +252,6 @@ def parse_receiver(user_input: str) -> Receiver | None:
         new_receiver = Receiver(receiver_list[0], x_input, y_input)
         return new_receiver
     return None
-
 
 
 def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
@@ -289,17 +286,17 @@ def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
     if len(tokens) != 3:
         print("Error: <symbol> <frequency> <direction>")
         return
-    symbol:str = tokens[0]
-    frequency:int = tokens[1]
-    direction:str = tokens[2]
+    symbol: str = tokens[0]
+    frequency: int = tokens[1]
+    direction: str = tokens[2]
     # check 2: symbol character
     sym_character = False
-    i=0
-    while i<len(emitter_constraint):
+    i = 0
+    while i < len(emitter_constraint):
         if symbol == emitter_constraint[i]:
             sym_character = True
             break
-        i+=1
+        i += 1
     if not sym_character:
         print("Error: symbol is not between 'A'-'J'.")
         return
@@ -315,12 +312,12 @@ def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
         return
     # check 5: direction in NESW
     dir_character = False
-    i=0
-    while i<len(direction_constraint):
+    i = 0
+    while i < len(direction_constraint):
         if direction == direction_constraint[i]:
             dir_character = True
             break
-        i+=1
+        i += 1
     if not dir_character:
         print("Error: direction must be 'N', 'E', 'S' or 'W'")
         return
@@ -361,7 +358,7 @@ def parse_mirror(user_input: str) -> Mirror | None:
     x = user_tokens[1]
     y = user_tokens[2]
     # Check 2
-    if not(symbol == '/' or symbol == '\\' or symbol == '>' or symbol == '<' or symbol == '^' or symbol =='v'):
+    if not (symbol == '/' or symbol == '\\' or symbol == '>' or symbol == '<' or symbol == '^' or symbol == 'v'):
         print("Error: symbol must be '/', '\\', '>', '<', '^' or 'v'")
         return
     # Check 3
@@ -380,12 +377,10 @@ def parse_mirror(user_input: str) -> Mirror | None:
     if x < 0:
         print("Error: x cannot be negative")
         return
-    # Check 6 
+    # Check 6
     if y < 0:
         print("Error: y cannot be negative")
         return
     # All test passed
     new_mirror = Mirror(symbol, x, y)
     return new_mirror
-
-

@@ -20,7 +20,6 @@ use the component_type attribute that each component has defined instead.
 
 class Photon:
 
-
     def __init__(self, x: int, y: int, frequency: int, direction: str):
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
@@ -43,13 +42,12 @@ class Photon:
         frequency - the frequency to set this photon to
         direction - the direction to set this photon to
         '''
-        self.symbol:str = '.'
-        self.x:int = x
-        self.y:int = y
-        self.frequency:int = frequency
-        self.direction:str = direction
-        self.absorbed:bool = False
-
+        self.symbol: str = '.'
+        self.x: int = x
+        self.y: int = y
+        self.frequency: int = frequency
+        self.direction: str = direction
+        self.absorbed: bool = False
 
     def move(self, board_width: int, board_height: int) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
@@ -68,24 +66,23 @@ class Photon:
         '''
         if not self.is_absorbed():
             if self.get_direction() == 'N':
-                self.y -=1
+                self.y -= 1
             if self.get_direction() == 'E':
-                self.x +=1
+                self.x += 1
             if self.get_direction() == 'S':
-                self.y +=1
+                self.y += 1
             if self.get_direction() == 'W':
-                self.x -=1
-        if not ((self.get_x()>=0 and self.get_x() < board_width) and (self.get_y()>=0 and self.get_y() < board_height)):
+                self.x -= 1
+        if not ((self.get_x() >= 0 and self.get_x() < board_width) and (self.get_y() >= 0 and self.get_y() < board_height)):
             self.got_absorbed()
             if self.get_direction() == 'N':
-                self.y +=1
+                self.y += 1
             if self.get_direction() == 'E':
-                self.x -=1
+                self.x -= 1
             if self.get_direction() == 'S':
-                self.y -=1
+                self.y -= 1
             if self.get_direction() == 'W':
-                self.x +=1
-
+                self.x += 1
 
     def interact_with_component(self, component: object, timestamp: int) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
@@ -99,7 +96,7 @@ class Photon:
         - If component is a receiver, the receiver absorbs this photon and
           stores its energy.
         - If component is a mirror, the mirror reflects it off its surface.
-        
+
         Parameters
         ----------
         component - the component to interact with, being an Emitter, Receiver 
@@ -137,12 +134,10 @@ class Photon:
         '''Updates the absorbed attribute to represent an absorption.'''
         self.absorbed = True
 
-
     def is_absorbed(self) -> bool:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns absorbed.'''
         return self.absorbed
-
 
     def set_direction(self, direction: str) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
@@ -157,30 +152,25 @@ class Photon:
         if direction == 'N' or direction == 'E' or direction == 'S' or direction == 'W':
             self.direction = direction
 
-
     def get_direction(self) -> str:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns direction.'''
         return self.direction
 
-        
     def get_frequency(self) -> int:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns frequency.'''
         return self.frequency
-
 
     def get_symbol(self) -> str:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns symbol.'''
         return self.symbol
 
-    
     def get_x(self) -> int:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns x.'''
         return self.x
-
 
     def get_y(self) -> int:
         # only requires implementation once you reach RUN-MY-CIRCUIT

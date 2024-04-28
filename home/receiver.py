@@ -17,7 +17,6 @@ modifying the existing scaffold.
 
 class Receiver:
 
-
     def __init__(self, symbol: str, x: int, y: int):
         '''
         Initialises a Receiver instance with a given symbol, x and y value. 
@@ -41,21 +40,20 @@ class Receiver:
         x      - the x position to set this receiver to
         y      - the y position to set this receiver to       
         '''
-        self.component_type:str = 'receiver'
-        self.symbol:str = symbol
-        self.x:int = x
-        self.y:int = y
-        self.total_energy:float = 0.0
-        self.photons_absorbed:int = 0
-        self.activated:bool = False
-        self.activation_time:int = 0        
+        self.component_type: str = 'receiver'
+        self.symbol: str = symbol
+        self.x: int = x
+        self.y: int = y
+        self.total_energy: float = 0.0
+        self.photons_absorbed: int = 0
+        self.activated: bool = False
+        self.activation_time: int = 0
 
-
-    def convert_frequency_to_energy(self, frequency: int) -> float: # self ADDED
+    def convert_frequency_to_energy(self, frequency: int) -> float:  # self ADDED
         # this method has already been implemented for you
         '''
         Converts the given frequency (THz) to energy (eV).
-        
+
         Parameters
         ----------
         frequency - the frequency to convert to energy
@@ -74,20 +72,19 @@ class Receiver:
         electronvolts = joules / JOULES_TO_EV
         return electronvolts
 
-
     def absorb_photon(self, photon: Photon, timestamp: int) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
         Absorbs the photon, where timestamp (ns) is when the photon collided
         with this receiver. This method should return out early if the photon
         has already been absorbed. 
-        
+
         Otherwise, this receiver should have total_energy and photons_absorbed
         updated. If this is the first photon absorbed, activated and
         activation_time should also update.
-        
+
         In the end, photon should be updated to be absorbed.   
-        
+
         Parameters
         ----------
         photon    - the photon to absorb for this receiver
@@ -95,36 +92,32 @@ class Receiver:
                     receiver
         '''
         if not photon.is_absorbed():
-            self.total_energy += self.convert_frequency_to_energy(photon.get_frequency())
+            self.total_energy += self.convert_frequency_to_energy(
+                photon.get_frequency())
             if self.photons_absorbed == 0:
                 self.activated = True
                 self.activation_time = timestamp
             self.photons_absorbed += 1
             photon.got_absorbed()
 
-
     def is_activated(self) -> bool:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns whether or not this receiver is activated. '''
         return self.activated
 
-    
     def get_total_energy(self) -> float:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns total_energy.'''
         return self.total_energy
-
 
     def get_activation_time(self) -> int:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''Returns activation_time.'''
         return self.activation_time
 
-
     def get_component_type(self) -> str:
         '''Returns component type.'''
         return self.component_type
-
 
     def get_symbol(self) -> str:
         '''
@@ -138,23 +131,20 @@ class Receiver:
         symbol_num = self.symbol[-1]
         return symbol_num
 
-
     def get_x(self) -> int:
         '''Returns x.'''
         return self.x
-
 
     def get_y(self) -> int:
         '''Returns y.'''
         return self.y
 
-    
     def __str__(self) -> str:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
         Returns a unique string format of the receiver, containing its symbol,
         frequency and direction.
-        
+
         Returns a string in the format
         <symbol>: <total_energy>eV (<photons_absorbed>) 
         where <total_energy> is rounded to 2dp.

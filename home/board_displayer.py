@@ -19,8 +19,7 @@ modifying the existing scaffold.
 
 class BoardDisplayer:
 
-
-    def __init__(self, width: int, height: int, colour_frequency_ranges:dict = None):
+    def __init__(self, width: int, height: int, colour_frequency_ranges: dict = None):
         '''
         Initialises a BoardDisplayer instance given a width and height 
         which is the size of the circuit board. board should be 
@@ -38,11 +37,10 @@ class BoardDisplayer:
         width  - the width to set this board to
         height - the height to set this board to
         '''
-        self.width:int = width
-        self.height:int = height
-        self.board:list[list[str]] = self.create_board()
+        self.width: int = width
+        self.height: int = height
+        self.board: list[list[str]] = self.create_board()
         self.colour_frequency_ranges = colour_frequency_ranges
-
 
     def create_board(self) -> list[list[str]]:
         '''
@@ -72,7 +70,7 @@ class BoardDisplayer:
         while i < self.height:
             row = self.width * [' ']
             self.board.append(row)
-            i+=1
+            i += 1
         return self.board
 
     def change_emitter_format(self, emitter: Emitter, has_emitted: bool) -> None:
@@ -87,19 +85,18 @@ class BoardDisplayer:
             emitter_symbol = dim + emitter_symbol + end_code
             self.board[emitter.get_y()][emitter.get_x()] = emitter_symbol
 
-
     def change_receiver_format(self, receiver: Receiver, has_activated: bool) -> None:
         dim = "\033[38;5;245m"
         underline = "\033[4m"
         end_code = "\033[0m"
         receiver_symbol = receiver.get_symbol()
         if has_activated:
-            receiver_symbol = underline +receiver_symbol + end_code
+            receiver_symbol = underline + receiver_symbol + end_code
             self.board[receiver.get_y()][receiver.get_x()] = receiver_symbol
         elif not has_activated:
-            receiver_symbol = dim +receiver_symbol + end_code
+            receiver_symbol = dim + receiver_symbol + end_code
             self.board[receiver.get_y()][receiver.get_x()] = receiver_symbol
-   
+
     def add_component_to_board(self, component: Emitter | Receiver | Mirror) -> None:
         '''
         Adds the symbol of the component on the board at its assigned 
@@ -113,7 +110,7 @@ class BoardDisplayer:
         ----------
         You shouldn't need to care what type of component you are adding,
         since all components have a symbol, x and y.
-        
+
         >>> self.board # board split across multiple lines for readability
         [
          [' ', ' ', ' '], 
@@ -131,10 +128,10 @@ class BoardDisplayer:
          [' ', ' ', ' ']
         ]      
         '''
-        self.board[component.get_y()][component.get_x()] = component.get_symbol()
+        self.board[component.get_y()][component.get_x()
+                                      ] = component.get_symbol()
 
-
-    def add_photon_to_board(self, photon: Photon, show_color:bool = False) -> None:
+    def add_photon_to_board(self, photon: Photon, show_color: bool = False) -> None:
         # only requires implementation once you reach RUN-MY-CIRCUIT
         '''
         Adds the symbol of the photon on the board at its current position. If
@@ -166,17 +163,19 @@ class BoardDisplayer:
                 elif photon_frequency > self.colour_frequency_ranges['red'][1]:
                     color_code = "\033[31m"
                 else:
-                    color_code = "\033[39m" # NO Change         
+                    color_code = "\033[39m"  # NO Change
                 # add color
                 if self.board[photon.get_y()][photon.get_x()] == ' ':
-                    self.board[photon.get_y()][photon.get_x()] = color_code + photon.get_symbol()  + end_code
+                    self.board[photon.get_y()][photon.get_x(
+                    )] = color_code + photon.get_symbol() + end_code
             except:
                 if self.board[photon.get_y()][photon.get_x()] == ' ':
-                    self.board[photon.get_y()][photon.get_x()] = photon.get_symbol()
-        else: # NO color
+                    self.board[photon.get_y()][photon.get_x()
+                                               ] = photon.get_symbol()
+        else:  # NO color
             if self.board[photon.get_y()][photon.get_x()] == ' ':
-                self.board[photon.get_y()][photon.get_x()] = photon.get_symbol()
-
+                self.board[photon.get_y()][photon.get_x()
+                                           ] = photon.get_symbol()
 
     def print_board(self) -> None:
         '''
@@ -229,16 +228,15 @@ class BoardDisplayer:
         '''
         top = f"+{self.width*'-'}+"
         board_output = ""
-        board_output+=top+"\n"
-        i=0
-        while i<self.height:
-            j=0
-            board_output +="|"
-            while j<self.width:
+        board_output += top+"\n"
+        i = 0
+        while i < self.height:
+            j = 0
+            board_output += "|"
+            while j < self.width:
                 board_output += self.board[i][j]
-                j+=1
-            board_output +="|\n"
-            i+=1
-        board_output+=top
+                j += 1
+            board_output += "|\n"
+            i += 1
+        board_output += top
         print(board_output)
-        

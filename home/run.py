@@ -4,7 +4,7 @@ from emitter import Emitter
 from receiver import Receiver
 from mirror import Mirror
 from laser_circuit import LaserCircuit
-from photon import Photon # ADDED
+from photon import Photon  # ADDED
 
 '''
 Name:   Javier Herrera Saavedra
@@ -25,16 +25,16 @@ def is_run_my_circuit_enabled(args: list[str]) -> bool:
     # only requires implementation once you reach RUN-MY-CIRCUIT
     '''
     Returns whether or not '-RUN-MY-CIRCUIT' is in args.
-    
+
     Parameters
     ----------
     args - the command line arguments of the program
     '''
-    i=0
-    while i<len(args):
-        if "-RUN-MY-CIRCUIT" ==args[i]:
+    i = 0
+    while i < len(args):
+        if "-RUN-MY-CIRCUIT" == args[i]:
             return True
-        i+=1
+        i += 1
     return False
 
 
@@ -42,20 +42,20 @@ def is_add_my_mirrors_enabled(args: list[str]) -> bool:
     # only requires implementation once you reach ADD-MY-MIRRORS
     '''
     Returns whether or not '-ADD-MY-MIRRORS' is in args.
-    
+
     Parameters
     ----------
     args - the command line arguments of the program
     '''
-    i=0
-    while i<len(args):
+    i = 0
+    while i < len(args):
         if "-ADD-MY-MIRRORS" == args[i]:
             return True
-        i+=1
+        i += 1
     return False
 
 
-def initialise_circuit(colour_frequency_ranges:dict = None) -> LaserCircuit:
+def initialise_circuit(colour_frequency_ranges: dict = None) -> LaserCircuit:
     # only requires implementation once you reach GET-MY-INPUTS
     '''
     Gets the inputs for the board size, emitters and receivers and processes
@@ -69,7 +69,7 @@ def initialise_circuit(colour_frequency_ranges:dict = None) -> LaserCircuit:
     inputted size. The circuit should also include each emitter and receiver
     the user has inputted.
     '''
-    #1 Get input for board
+    # 1 Get input for board
     print("Creating circuit board...")
 
     while True:
@@ -77,10 +77,11 @@ def initialise_circuit(colour_frequency_ranges:dict = None) -> LaserCircuit:
         board_call = input_parser.parse_size(board_user)
         if type(board_call) == tuple:
             break
-    new_circuit = LaserCircuit(board_call[0], board_call[1], colour_frequency_ranges)
+    new_circuit = LaserCircuit(
+        board_call[0], board_call[1], colour_frequency_ranges)
     print(f"{board_call[0]}x{board_call[1]} board created.\n")
 
-    #2 Get emitters MAX 10 or END EMITTERS
+    # 2 Get emitters MAX 10 or END EMITTERS
     print("Adding emitter(s)...")
 
     max_times = 10
@@ -97,9 +98,9 @@ def initialise_circuit(colour_frequency_ranges:dict = None) -> LaserCircuit:
         if type(emitter_call) == Emitter:
             new_circuit.add_emitter(emitter_call)
 
-    print(f"{len(new_circuit.emitters)} emitter(s) added.\n") 
+    print(f"{len(new_circuit.emitters)} emitter(s) added.\n")
 
-    #3 Get receivers MAX 10 or END RECEIVERS
+    # 3 Get receivers MAX 10 or END RECEIVERS
     print("Adding receiver(s)...")
 
     max_times = 10
@@ -120,7 +121,6 @@ def initialise_circuit(colour_frequency_ranges:dict = None) -> LaserCircuit:
     return new_circuit
 
 
-
 def set_pulse_sequence(circuit: LaserCircuit, file_obj) -> None:
     # only requires implementation once you reach RUN-MY-CIRCUIT
     '''
@@ -139,17 +139,16 @@ def set_pulse_sequence(circuit: LaserCircuit, file_obj) -> None:
 
     # Emitters not set
     def emitters_not_set():
-        print_tuple =  "-- ("
+        print_tuple = "-- ("
         i = 0
-        while  i < len(circuit.emitters):
+        while i < len(circuit.emitters):
             if not circuit.emitters[i].is_pulse_sequence_set():
                 print_tuple += circuit.emitters[i].get_symbol()
                 if circuit.emitters[i] != circuit.emitters[-1]:
                     print_tuple += ', '
-            i+=1
+            i += 1
         print_tuple += ')'
         return print_tuple
-
 
     lines = file_obj.readlines()
     i = 0
@@ -157,40 +156,42 @@ def set_pulse_sequence(circuit: LaserCircuit, file_obj) -> None:
         # list emitters not sequence set
         print(emitters_not_set())
         print(f"Line {i+1}: {lines[i]}", end='')
-        tuple_sequence = input_parser.parse_pulse_sequence(lines[i]) # tuple|None
+        tuple_sequence = input_parser.parse_pulse_sequence(
+            lines[i])  # tuple|None
         if type(tuple_sequence) == tuple:
 
-            ## NEED to check if the emitter exists in circuit
+            # NEED to check if the emitter exists in circuit
             exist_in_circuit = False
             k = 0
             while k < len(circuit.emitters):
                 if tuple_sequence[0] == circuit.emitters[k].get_symbol():
                     exist_in_circuit = True
-                    break    
-                k+=1
+                    break
+                k += 1
             if not exist_in_circuit:
                 print(f"Error: emitter '{tuple_sequence[0]}' does not exist")
-                i+=1
+                i += 1
                 continue
 
-            ## NEED to check if already set
+            # NEED to check if already set
             setted_already = False
             j = 0
             while j < len(circuit.emitters):
                 if tuple_sequence[0] == circuit.emitters[j].get_symbol():
                     if circuit.emitters[j].is_pulse_sequence_set():
-                        print(f"Error: emitter '{tuple_sequence[0]}' already its pulse sequence set")
+                        print(f"Error: emitter '{
+                              tuple_sequence[0]}' already its pulse sequence set")
                         setted_already = True
                         break
-                    else: # SET pulse
-                        circuit.emitters[j].set_pulse_sequence(tuple_sequence[1], tuple_sequence[2])    
-                j+=1
+                    else:  # SET pulse
+                        circuit.emitters[j].set_pulse_sequence(
+                            tuple_sequence[1], tuple_sequence[2])
+                j += 1
             if setted_already:
-                i+=1
+                i += 1
                 continue
-        i+=1 #this is when the input is correct
+        i += 1  # this is when the input is correct
     print("\nPulse sequence set.\n")
-
 
 
 def add_mirrors(circuit: LaserCircuit) -> None:
@@ -199,7 +200,7 @@ def add_mirrors(circuit: LaserCircuit) -> None:
     Handles adding the mirrors into the circuit. You should be using the
     functions you have implemented in the input_parser module to handle
     validating each input. 
-    
+
     Parameters
     ----------
     circuit - the laser circuit to add the mirrors into
@@ -209,34 +210,36 @@ def add_mirrors(circuit: LaserCircuit) -> None:
         user_input = input("> ")
         if user_input == "END MIRRORS":
             break
-        checked_mirror = input_parser.parse_mirror(user_input) # Mirror
+        checked_mirror = input_parser.parse_mirror(user_input)  # Mirror
         if type(checked_mirror) == Mirror:
             circuit.add_mirror(checked_mirror)
     print("{} mirror(s) added.".format(len(circuit.mirrors)))
 
-def is_rgb_my_circuit_enabled(args: list[str]) ->bool:
-    i=0
-    while i<len(args):
+
+def is_rgb_my_circuit_enabled(args: list[str]) -> bool:
+    i = 0
+    while i < len(args):
         if "-RGB-MY-CIRCUIT" == args[i]:
             return True
-        i+=1
+        i += 1
     return False
-    
 
-def load_colour_frequency_ranges() -> dict[str,tuple[int, int]] | None:
+
+def load_colour_frequency_ranges() -> dict[str, tuple[int, int]] | None:
     file_name = 'home/input/visible_light_spectrum.in'
     try:
         with open(file_name, 'r') as file:
-            colour_order = ['violet', 'blue', 'cyan', 'green', 'yellow', 'orange','red']
+            colour_order = ['violet', 'blue', 'cyan',
+                            'green', 'yellow', 'orange', 'red']
             dict_colours = {}
             # Check 1 #Check line by line
             lines = file.readlines()
-            if len(lines)!= 7:
+            if len(lines) != 7:
                 print(f"Error: expected 7 lines, got {len(lines)}")
                 return
             # Check 2
             i = 0
-            while i< len(lines):
+            while i < len(lines):
                 line = lines[i]
                 line_num = i+1
                 parts_split_colon = line.strip().split(':')
@@ -255,31 +258,34 @@ def load_colour_frequency_ranges() -> dict[str,tuple[int, int]] | None:
                 low_frequency = frequency_range[1]
                 # Check 3
                 if colour != colour_order[i]:
-                    print(f"Error: line {line_num} - colour must be {colour_order[i]}")
+                    print(f"Error: line {
+                          line_num} - colour must be {colour_order[i]}")
                     return
                 # Check 4
                 try:
                     high_frequency = int(high_frequency)
                     low_frequency = int(low_frequency)
                 except ValueError:
-                    print(f"Error: line {line_num} - both frequencies must be integers")
+                    print(f"Error: line {
+                          line_num} - both frequencies must be integers")
                     return
                 # Check 5
-                if not high_frequency>low_frequency:
-                    print("Error: line {line_num} - high frequency must be higher than low frequency")
+                if not high_frequency > low_frequency:
+                    print(
+                        "Error: line {line_num} - high frequency must be higher than low frequency")
                     return
                 # Check 6
-                if line_num>1 and not last_low_frequency == high_frequency:
-                    print("Error: line {line-num} - high frequency must equal to low frequency of previous colour")
+                if line_num > 1 and not last_low_frequency == high_frequency:
+                    print(
+                        "Error: line {line-num} - high frequency must equal to low frequency of previous colour")
                     return
                 last_low_frequency = low_frequency
                 dict_colours[colour] = (high_frequency, low_frequency)
-                i+=1
+                i += 1
             return dict_colours
     except FileNotFoundError:
         print(f"-RGB-MY-CIRCUIT flag detected but {file_name} does not exist")
         return
-
 
 
 def main(args: list[str]) -> None:
@@ -307,18 +313,19 @@ def main(args: list[str]) -> None:
     if is_add_my_mirrors_enabled(args):
         print("<ADD-MY-MIRRORS FLAG DETECTED!>\n")
         add_mirrors(circuit)
-        print() #
+        print()
     circuit.print_board()
     print()
-        
-    if is_run_my_circuit_enabled(args):  #-RUN-MY-CIRCUIT
+
+    if is_run_my_circuit_enabled(args):  # -RUN-MY-CIRCUIT
         print("<RUN-MY-CIRCUIT FLAG DETECTED!>\n")
-        
+
         try:
             with open('home/input/pulse_sequence.in', 'r') as file_obj:
                 set_pulse_sequence(circuit, file_obj)
         except:
-            print("Error: -RUN-MY-CIRCUIT flag detected but /home/input/pulse_sequence.in does not exist")
+            print(
+                "Error: -RUN-MY-CIRCUIT flag detected but /home/input/pulse_sequence.in does not exist")
             return
 
         circuit.run_circuit()

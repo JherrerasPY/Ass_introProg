@@ -111,7 +111,7 @@ def sort_receivers_by_activation_time(receivers: list[Receiver]) -> list[Receive
     in ascending order, followed by a sorting of their symbol in ascending order.
     '''
     # sort our receivers by symbol to resolve ties
-    new_list = sort_receivers_by_symbol(receivers)    
+    new_list = sort_receivers_by_symbol(receivers)
 
     i = 0
     while i < len(new_list):
