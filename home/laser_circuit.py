@@ -346,6 +346,7 @@ class LaserCircuit:
 
         # Thirdly
         total_receivers = len(self.get_receivers())
+        activated_receivers = 0
         while not self.is_finished():
             self.tick()
             if self.clock % 5 == 0:
@@ -359,9 +360,10 @@ class LaserCircuit:
                 self.print_board()
                 print()
         # Print when finish
-        print(f"{self.clock}ns: {activated_receivers}/{total_receivers} receiver(s) activated.")
-        self.print_board()
-        print()
+        if self.clock % 5 != 0 and self.clock > 0:
+            print(f"{self.clock}ns: {activated_receivers}/{total_receivers} receiver(s) activated.")
+            self.print_board()
+            print()
 
         # Forthly
         self.print_activation_times()
