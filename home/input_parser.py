@@ -244,9 +244,9 @@ def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
     if len(tokens) != 3:
         print("Error: <symbol> <frequency> <direction>")
         return
-    symbol: str = tokens[0]
-    frequency: int = tokens[1]
-    direction: str = tokens[2]
+    symbol = tokens[0]
+    frequency = tokens[1]
+    direction = tokens[2]
     # check 2: symbol character
     sym_character = False
     i = 0
@@ -256,19 +256,19 @@ def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
             break
         i += 1
     if not sym_character:
-        print("Error: symbol is not between 'A'-'J'.")
+        print("Error: symbol is not between 'A'-'J'")
         return
     # check 3: frequency integer
     try:
         frequency = int(frequency)
-    except:
-        print("Error: frequency is not an integer.")
+    except ValueError:
+        print("Error: frequency is not an integer")
         return
-    # check 4: frecuency > 0
-    if not frequency > 0:
+    # check 4: frequency > 0
+    if frequency <= 0:
         print("Error: frequency must be greater than zero")
         return
-    # check 5: direction in NESW
+    # check 5: direction in N E S W
     dir_character = False
     i = 0
     while i < len(direction_constraint):
@@ -279,7 +279,7 @@ def parse_pulse_sequence(line: str) -> tuple[str, int, str] | None:
     if not dir_character:
         print("Error: direction must be 'N', 'E', 'S' or 'W'")
         return
-    return (symbol, frequency, direction)
+    return symbol, frequency, direction
 
 
 def parse_mirror(user_input: str) -> Mirror | None:
@@ -322,13 +322,13 @@ def parse_mirror(user_input: str) -> Mirror | None:
     # Check 3
     try:
         x = int(x)
-    except:
+    except ValueError:
         print("Error: x is not an integer")
         return
     # Check 4
     try:
         y = int(y)
-    except:
+    except ValueError:
         print("Error: y is not an integer")
         return
     # Check 5
